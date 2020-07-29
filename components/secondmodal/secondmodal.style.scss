@@ -1,0 +1,38 @@
+.nextCordinate{
+    text-align: center;
+}
+.cordinate{
+    background-color: #F5F5F5;
+    height:50px;
+    padding:2%;
+}
+
+.typeDiv{
+    padding:2%;
+}
+.pointOne{
+    padding-top:2%;
+    
+}
+.addPointBtn{
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+.north{
+     
+    position: absolute;
+    bottom: 15%;
+    right: -4px;
+}
+.hemipoint{
+    position: absolute;
+    bottom: 15%;
+    right: -15px;
+}
+
+.deleteIcon {
+    color: red;
+    position: relative;
+    left: 16px;
+    font-size: 25px !important;
+    top: 5px;
+}
