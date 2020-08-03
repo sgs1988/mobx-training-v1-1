@@ -6,10 +6,12 @@ export class ProjectDetailsModel {
     public startDate: Date | undefined;
     public creator: string = "";
     public hemis: boolean = false;
-  //  public inputsHemi: any = [];
-   // public inputsHemi: Array[];
-   
-   // public country: CountryInfo = new CountryInfo();
+  
   }
   
-  
+  export class modalDetails {
+    public description = [];
+    public onCloseModal: boolean = true;
+    public openModal: boolean = true;
+    public title = [];
+  }
