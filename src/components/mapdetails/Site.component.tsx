@@ -1,12 +1,18 @@
 import React, { Component, useState } from 'react';
 import { observable } from "mobx";
 import { observer } from "mobx-react";
-import { Collapse, Button, CardBody, Card, ListGroup, ListGroupItem, Tooltip } from 'reactstrap';
+import { Collapse, Button, CardBody, Card, ListGroup, ListGroupItem, Tooltip, Modal, ModalHeader, ModalFooter } from 'reactstrap';
 import './site.scss'
 import CoordinateDetails1 from './../coordinatesDetails/CoordinateDetails'
 
+
+
+
 @observer
 export default class SiteComponent extends Component {
+
+
+
 
     constructor(props: any) {
         super(props);
@@ -16,7 +22,8 @@ export default class SiteComponent extends Component {
             siteName: [{
                 id: 1,
                 name: "Site no. 1",
-                active: true
+                active: true,
+                coordinate: []
             }],
 
             count: 1
@@ -24,11 +31,14 @@ export default class SiteComponent extends Component {
 
         this.handleAddSite = this.handleAddSite.bind(this);
         this.openModel = this.openModel.bind(this);
+        this.toggleCordinate = this.toggleCordinate.bind(this);
 
     }
     @observable
     private tooltipOpen: boolean = false;
     private setTooltipOpen: any;
+    @observable
+    private isModalOpen: boolean = false;
 
 
     state: any = {};
@@ -36,6 +46,18 @@ export default class SiteComponent extends Component {
     toggle: any = () => {
         console.log("work")
         this.tooltipOpen = !this.tooltipOpen
+    }
+    toggleModal = () => {
+        console.log("I am here");
+        this.isModalOpen = !this.isModalOpen;
+    }
+
+    toggleCordinate = () => {
+        this.isModalOpen = !this.isModalOpen;
+    }
+
+    saveProjectDetails = () => {
+        console.log("saveProjectDetails")
     }
 
     openModel: any = (item: any, index: number) => {
@@ -66,11 +88,6 @@ export default class SiteComponent extends Component {
     }
 
 
-
-
-
-
-
     render() {
         const tooltipStyle: any = {
             placement: "top",
@@ -90,9 +107,6 @@ export default class SiteComponent extends Component {
 
                         })
                     }
-
-
-
 
 
 
@@ -116,7 +130,7 @@ export default class SiteComponent extends Component {
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <button className="fontSmall">Add coordinates</button>
+                    <button className="fontSmall" onClick={this.toggleModal}>Add coordinates</button>
                 </span> <span>
                     <button className="fontSmall">Upload file</button>
                 </span>
@@ -125,8 +139,21 @@ export default class SiteComponent extends Component {
                     <div><span><button>Save Projects</button></span></div>
 
                 </div>
+                <Modal isOpen={this.isModalOpen}>
+                    <ModalHeader>
+                        <div className='newprjct'> Co-ordinates</div>
+                        <button type="button" className="close" aria-label="Close" onClick={this.toggleCordinate}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </ModalHeader>
 
-                <CoordinateDetails1 />
+                    <CoordinateDetails1 />
+
+                    <ModalFooter>
+                        <Button type="button" value="Save" onClick={this.saveProjectDetails} className="btn nextBtn col-md-2">Save</Button>
+                    </ModalFooter>
+
+                </Modal>
 
             </div >
         )
