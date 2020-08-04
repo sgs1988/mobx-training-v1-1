@@ -16,6 +16,7 @@ import history from '../../history';
 
 export interface IModalComponentProps {
     project?: ProjectStore;
+    coordinateDetailsData?: any;
 }
 
 @inject(PROJECT)
@@ -72,17 +73,24 @@ export default class ProjectDetail extends React.Component<IModalComponentProps>
         this.isModalOpen = !this.isModalOpen;
         //history.push('/coordinatedet', CoordinateDetail);
     }
-    saveProjectDetails() {
+
+
+    saveProjectDetails(arg: any) {
 
         this.toggle();
 
         //console.log();
-        let triangleCoords: any = [
-            { lat: 37.42390182131783, lng: -122.0914977709329 },
-            { lat: 37.42419403634421, lng: -122.0926995893311 },
-            { lat: 37.42301710721216, lng: -122.0922532985281 }
-        ];
-        history.push('/map', triangleCoords);
+        // let triangleCoords: any = [
+        //     { lat: 37.42390182131783, lng: -122.0914977709329 },
+        //     { lat: 37.42419403634421, lng: -122.0926995893311 },
+        //     { lat: 37.42301710721216, lng: -122.0922532985281 }
+        // ];
+        if (arg.length > 0) {
+            let triangleCoords: any = arg;
+            history.push('/map', triangleCoords);
+        }
+
+
 
     }
     updateTextAreaVal = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -131,6 +139,22 @@ export default class ProjectDetail extends React.Component<IModalComponentProps>
         });
 
     }
+
+
+    changeUnit = (arg: any) => {
+        console.log(arg)
+        let triangleCoords: any = [];
+        if (arg.length > 0) {
+            arg.map((obj: any) => {
+                if (obj.lat !== '' && obj.lat !== NaN && obj.long !== '' && obj.long !== NaN) {
+                    triangleCoords.push({ lat: parseFloat(obj.lat), lng: parseFloat(obj.long) });
+                }
+            })
+            this.saveProjectDetails(triangleCoords);
+            //  this.props.coordinateDetailsData(triangleCoords);
+            // this.isModalOpen = false;
+        }
+    }
     render() {
 
         return (
@@ -140,8 +164,10 @@ export default class ProjectDetail extends React.Component<IModalComponentProps>
                     <Button className='btn openPrjct' onClick={this.toggle}>
 
                         CREATE A PROJECT</Button>
-                    <Modal isOpen={this.isModalOpen}>
-                        <form >
+
+                    <form >
+                        <Modal isOpen={this.isModalOpen}>
+
                             <ModalHeader>
 
                                 {!this.nextEnabled ?
@@ -215,7 +241,7 @@ export default class ProjectDetail extends React.Component<IModalComponentProps>
                                         </div>
 
                                         : <div>
-                                            <CoordinateDetails1></CoordinateDetails1>
+                                            <CoordinateDetails1 coordinateDetailsData={this.changeUnit}></CoordinateDetails1>
                                         </div>
                                     }
                                 </div>
@@ -227,8 +253,9 @@ export default class ProjectDetail extends React.Component<IModalComponentProps>
                                 }
 
                             </ModalFooter>
-                        </form>
-                    </Modal>
+                        </Modal>
+                    </form>
+
                 </div>
 
             </div>
